@@ -14,11 +14,21 @@ class Event extends Model
         'start',
         'end',
         'description',
-        'color'
+        'color',
+        'is_public'
     ];
 
     protected $casts = [
         'start' => 'datetime',
         'end' => 'datetime',
+        'is_public' => 'boolean',
     ];
+
+    /**
+     * Relasi many-to-many dengan User
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'event_user');
+    }
 }

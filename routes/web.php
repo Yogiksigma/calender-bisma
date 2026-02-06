@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/events', [EventController::class, 'getEvents']);
     
     Route::middleware('admin')->group(function () {
+        Route::get('/users', [EventController::class, 'getUsers']);  // <-- TAMBAHKAN INI
         Route::post('/events', [EventController::class, 'store']);
         Route::put('/events/{id}', [EventController::class, 'update']);
         Route::delete('/events/{id}', [EventController::class, 'destroy']);
