@@ -10,100 +10,146 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     
-    <!-- <link href="{{ asset('css/calendar.css') }}" rel="stylesheet"> ngelink css -->
     <style>
         body {
             padding: 20px;
+            padding-bottom: 60px;
             background-color: #f8f9fa;
+            min-height: 100vh;
         }
+
         #calendar {
             max-width: 1100px;
             margin: 40px auto;
+            margin-bottom: 60px;
             background: white;
-            padding: 20px;
+            padding: 30px;
+            padding-bottom: 50px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 600px;
         }
+
         .navbar {
             margin-bottom: 20px;
             border-radius: 10px;
         }
+
         .user-badge {
             display: inline-block;
             padding: 5px 15px;
             border-radius: 20px;
             font-size: 14px;
         }
+
         .admin-badge {
             background-color: #dc3545;
             color: white;
         }
+
         .user-badge-normal {
             background-color: #0d6efd;
             color: white;
         }
+
         .event-type-badge {
             font-size: 11px;
             padding: 2px 8px;
             border-radius: 10px;
             margin-left: 5px;
         }
+
         .badge-public {
             background-color: #28a745;
             color: white;
         }
+
         .badge-private {
             background-color: #ffc107;
             color: black;
         }
+
         .select2-container {
             width: 100% !important;
             z-index: 9999 !important;
         }
+
         .swal2-html-container {
             overflow: visible !important;
         }
-        
-        /* Fix untuk masalah overlap toolbar */
-        .fc .fc-toolbar {
-            margin-bottom: 1.5em !important;
-            position: relative !important;
-            z-index: 100 !important;
-            height: auto !important;
-            min-height: 40px !important;
+
+        .fc {
+            max-width: 100%;
+            width: 100%;
         }
-        
-        .fc .fc-toolbar-chunk {
-            position: relative !important;
-            z-index: 100 !important;
+
+        /* Sembunyikan toolbar bawaan FullCalendar */
+        .fc-toolbar {
+            display: none !important;
         }
-        
-        /* Pastikan tombol bisa diklik */
-        .fc-button,
-        .fc .fc-button {
-            position: relative !important;
-            z-index: 101 !important;
-            pointer-events: auto !important;
-            cursor: pointer !important;
+
+        /* Custom toolbar kita sendiri */
+        .custom-calendar-toolbar {
+            max-width: 1100px;
+            margin: 20px auto 0;
+            padding: 15px 30px;
+            background: white;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        
-        /* Fix khusus untuk list view */
-        .fc-list {
-            margin-top: 20px !important;
-            position: relative !important;
-            z-index: 1 !important;
+
+        .custom-calendar-toolbar h2 {
+            margin: 0;
+            font-size: 1.5rem;
         }
-        
-        .fc-scroller,
-        .fc-list-table {
-            position: relative !important;
-            z-index: 1 !important;
+
+        .custom-nav-buttons .btn {
+            margin: 0 2px;
         }
-        
-        /* Jangan biarkan elemen lain menutupi toolbar */
-        .fc-view-harness {
-            position: relative !important;
-            z-index: 1 !important;
+
+        .fc-scroller::-webkit-scrollbar,
+        .fc-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .fc-scroller::-webkit-scrollbar-track,
+        .fc-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .fc-scroller::-webkit-scrollbar-thumb,
+        .fc-list::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .fc-scroller::-webkit-scrollbar-thumb:hover,
+        .fc-list::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .container {
+            padding-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            #calendar {
+                padding: 15px;
+                margin: 20px auto;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .custom-calendar-toolbar {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -144,6 +190,27 @@
                 <p class="text-muted">Anda dapat melihat kegiatan publik dan kegiatan yang di-assign kepada Anda</p>
             @endif
         </div>
+
+        <!-- Custom Toolbar -->
+        <div class="custom-calendar-toolbar">
+            <div class="custom-nav-buttons">
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="custom-prev">‹ Prev</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="custom-today">Hari Ini</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="custom-next">Next ›</button>
+            </div>
+            
+            <h2 id="calendar-title">Loading...</h2>
+            
+            <div class="custom-view-buttons">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary btn-sm" id="custom-month">Bulan</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="custom-week">Minggu</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="custom-day">Hari</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="custom-list">Daftar</button>
+                </div>
+            </div>
+        </div>
+
         <div id='calendar'></div>
     </div>
 
@@ -177,18 +244,7 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 locale: 'id',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-                },
-                buttonText: {
-                    today: 'Hari Ini',
-                    month: 'Bulan',
-                    week: 'Minggu',
-                    day: 'Hari',
-                    list: 'Daftar'
-                },
+                headerToolbar: false, // Nonaktifkan toolbar bawaan
                 
                 events: function(info, successCallback, failureCallback) {
                     $.ajax({
@@ -212,6 +268,11 @@
                         badge.textContent = info.event.extendedProps.is_public ? 'Publik' : 'Private';
                         info.el.querySelector('.fc-event-title').appendChild(badge);
                     }
+                },
+                
+                datesSet: function(dateInfo) {
+                    // Update title saat tanggal berubah
+                    updateCalendarTitle();
                 },
                 
                 editable: isAdmin,
@@ -543,40 +604,51 @@
             
             calendar.render();
             
-            // Force enable button clicks - solusi untuk masalah overlap
-            setTimeout(function() {
-                document.querySelectorAll('.fc-button').forEach(function(btn) {
-                    btn.style.pointerEvents = 'auto';
-                    btn.style.cursor = 'pointer';
-                    btn.style.position = 'relative';
-                    btn.style.zIndex = '1000';
-                });
-                
-                const toolbar = document.querySelector('.fc-toolbar');
-                if (toolbar) {
-                    toolbar.style.position = 'relative';
-                    toolbar.style.zIndex = '999';
-                    toolbar.style.marginBottom = '20px';
-                }
-                
-                const listView = document.querySelector('.fc-list');
-                if (listView) {
-                    listView.style.marginTop = '30px';
-                    listView.style.position = 'relative';
-                    listView.style.zIndex = '1';
-                }
-            }, 500);
+            // Update title pertama kali
+            updateCalendarTitle();
             
-            calendar.on('viewDidMount', function() {
-                setTimeout(function() {
-                    document.querySelectorAll('.fc-button').forEach(function(btn) {
-                        btn.style.pointerEvents = 'auto';
-                        btn.style.cursor = 'pointer';
-                        btn.style.position = 'relative';
-                        btn.style.zIndex = '1000';
-                    });
-                }, 100);
+            // Custom navigation buttons
+            document.getElementById('custom-prev').addEventListener('click', function() {
+                calendar.prev();
+                updateCalendarTitle();
             });
+
+            document.getElementById('custom-next').addEventListener('click', function() {
+                calendar.next();
+                updateCalendarTitle();
+            });
+
+            document.getElementById('custom-today').addEventListener('click', function() {
+                calendar.today();
+                updateCalendarTitle();
+            });
+
+            document.getElementById('custom-month').addEventListener('click', function() {
+                calendar.changeView('dayGridMonth');
+                updateCalendarTitle();
+            });
+
+            document.getElementById('custom-week').addEventListener('click', function() {
+                calendar.changeView('timeGridWeek');
+                updateCalendarTitle();
+            });
+
+            document.getElementById('custom-day').addEventListener('click', function() {
+                calendar.changeView('timeGridDay');
+                updateCalendarTitle();
+            });
+
+            document.getElementById('custom-list').addEventListener('click', function() {
+                calendar.changeView('listWeek');
+                updateCalendarTitle();
+            });
+            
+            // Function untuk update title
+            function updateCalendarTitle() {
+                const view = calendar.view;
+                const title = view.title;
+                document.getElementById('calendar-title').textContent = title;
+            }
         });
     </script>
 </body>
