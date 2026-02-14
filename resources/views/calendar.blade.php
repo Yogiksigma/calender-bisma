@@ -4,195 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>FullCalendar Laravel</title>
+    <title>Bisma Informatika - Kalender</title>
     
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/main.min.css' rel='stylesheet' />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    
-    <style>
-        body {
-            padding: 20px;
-            padding-bottom: 60px;
-            background-color: #f8f9fa;
-            min-height: 100vh;
-        }
-
-        #calendar {
-            max-width: 1100px;
-            margin: 40px auto;
-            margin-bottom: 60px;
-            background: white;
-            padding: 30px;
-            padding-bottom: 50px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            min-height: 600px;
-        }
-
-        .navbar {
-            margin-bottom: 20px;
-            border-radius: 10px;
-        }
-
-        .user-badge {
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        .admin-badge {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .user-badge-normal {
-            background-color: #0d6efd;
-            color: white;
-        }
-
-        .event-type-badge {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-left: 5px;
-        }
-
-        .badge-public {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .badge-private {
-            background-color: #ffc107;
-            color: black;
-        }
-
-        .select2-container {
-            width: 100% !important;
-            z-index: 9999 !important;
-        }
-
-        .swal2-html-container {
-            overflow: visible !important;
-        }
-
-        .fc {
-            max-width: 100%;
-            width: 100%;
-        }
-
-        .fc .fc-toolbar {
-            margin-bottom: 1.5em !important;
-            position: relative !important;
-            z-index: 100 !important;
-            height: auto !important;
-            min-height: 40px !important;
-        }
-
-        .fc .fc-toolbar-chunk {
-            position: relative !important;
-            z-index: 100 !important;
-        }
-
-        .fc-button,
-        .fc .fc-button {
-            position: relative !important;
-            z-index: 101 !important;
-            pointer-events: auto !important;
-            cursor: pointer !important;
-        }
-
-        .fc-timeGridWeek-view,
-        .fc-timeGridDay-view {
-            max-height: 700px;
-            overflow-y: auto;
-        }
-
-        .fc-timegrid {
-            overflow-y: auto !important;
-        }
-
-        .fc-scroller::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .fc-scroller::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        .fc-scroller::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-
-        .fc-scroller::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        .container {
-            padding-bottom: 40px;
-        }
-
-        .fc-dayGridMonth-view {
-            overflow: visible;
-        }
-
-        .fc-event {
-            overflow: visible !important;
-        }
-
-        @media (max-width: 768px) {
-            #calendar {
-                padding: 15px;
-                margin: 20px auto;
-            }
-            
-            body {
-                padding: 10px;
-            }
-        }
-    </style>
+    <link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">📅 Calendar App</a>
-            <div class="d-flex align-items-center">
-                <span class="text-white me-3">
-                    <strong>{{ auth()->user()->name }}</strong>
-                    <span class="user-badge {{ auth()->user()->isAdmin() ? 'admin-badge' : 'user-badge-normal' }}">
-                        {{ auth()->user()->isAdmin() ? 'Admin' : 'User' }}
-                    </span>
-                </span>
-                <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-light btn-sm">
-                        <i>🚪</i> Logout
-                    </button>
-                </form>
-            </div>
+    <!-- Navbar Merah -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="{{ asset('images/Logo-Bisma-Informatika-Indonesia-Merah (2) 2 (1).png') }}" alt="Bisma Informatika">
+        </a>
+        <div class="d-flex align-items-center">
+            <span class="user-badge">
+                {{ auth()->user()->name }}
+            </span>
+            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-outline-light btn-sm">
+                    Log Out
+                </button>
+            </form>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <div class="container">
         <div class="text-center mb-4">
             <h1>Kalender Kegiatan</h1>
             @if(auth()->user()->isAdmin())
                 <p class="text-success">
-                    <strong>✓ Mode Admin:</strong> Klik tanggal untuk menambah kegiatan, klik kegiatan untuk menghapus/edit
-                </p>
-                <p class="text-muted small">
-                    <span class="badge badge-public">Publik</span> = Semua user bisa lihat | 
-                    <span class="badge badge-private">Private</span> = Hanya user tertentu yang bisa lihat
+                    Selamat datang, Admin! Klik pada tanggal untuk menambahkan kegiatan baru.
                 </p>
             @else
-                <p class="text-muted">Anda dapat melihat kegiatan publik dan kegiatan yang di-assign kepada Anda</p>
+                <p class="text-muted">
+                    Anda dapat melihat kegiatan publik dan kegiatan yang di-assign kepada Anda
+                </p>
             @endif
         </div>
+        
         <div id='calendar'></div>
     </div>
 
@@ -303,6 +156,7 @@
                         showCancelButton: true,
                         confirmButtonText: 'Simpan',
                         cancelButtonText: 'Batal',
+                        confirmButtonColor: '#B52026',
                         didOpen: () => {
                             $('#event-users').select2({
                                 placeholder: 'Pilih user yang bisa melihat event ini',
@@ -367,7 +221,8 @@
                                         icon: 'success',
                                         title: 'Berhasil!',
                                         text: 'Kegiatan berhasil ditambahkan',
-                                        timer: 2000
+                                        timer: 2000,
+                                        confirmButtonColor: '#B52026'
                                     });
                                 },
                                 error: function(xhr) {
@@ -379,7 +234,8 @@
                                     Swal.fire({
                                         icon: 'error',
                                         title: 'Gagal!',
-                                        text: errorMessage
+                                        text: errorMessage,
+                                        confirmButtonColor: '#B52026'
                                     });
                                 }
                             });
@@ -406,7 +262,8 @@
                         Swal.fire({
                             title: info.event.title,
                             html: eventInfo,
-                            icon: 'info'
+                            icon: 'info',
+                            confirmButtonColor: '#B52026'
                         });
                         return;
                     }
@@ -420,7 +277,8 @@
                         confirmButtonText: 'Hapus',
                         denyButtonText: 'Edit',
                         cancelButtonText: 'Tutup',
-                        confirmButtonColor: '#dc3545'
+                        confirmButtonColor: '#dc3545',
+                        denyButtonColor: '#B52026'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
@@ -435,11 +293,17 @@
                                         icon: 'success',
                                         title: 'Terhapus!',
                                         text: 'Kegiatan berhasil dihapus',
-                                        timer: 2000
+                                        timer: 2000,
+                                        confirmButtonColor: '#B52026'
                                     });
                                 },
                                 error: function(xhr) {
-                                    Swal.fire('Gagal!', 'Gagal menghapus kegiatan', 'error');
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Gagal!',
+                                        text: 'Gagal menghapus kegiatan',
+                                        confirmButtonColor: '#B52026'
+                                    });
                                 }
                             });
                         } else if (result.isDenied) {
@@ -479,6 +343,7 @@
                                 showCancelButton: true,
                                 confirmButtonText: 'Update',
                                 cancelButtonText: 'Batal',
+                                confirmButtonColor: '#B52026',
                                 didOpen: () => {
                                     $('#edit-users').select2({
                                         placeholder: 'Pilih user',
@@ -534,10 +399,20 @@
                                         data: updateData,
                                         success: function(data) {
                                             calendar.refetchEvents();
-                                            Swal.fire('Berhasil!', 'Kegiatan berhasil diupdate', 'success');
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Berhasil!',
+                                                text: 'Kegiatan berhasil diupdate',
+                                                confirmButtonColor: '#B52026'
+                                            });
                                         },
                                         error: function(xhr) {
-                                            Swal.fire('Gagal!', 'Gagal mengupdate kegiatan', 'error');
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Gagal!',
+                                                text: 'Gagal mengupdate kegiatan',
+                                                confirmButtonColor: '#B52026'
+                                            });
                                         }
                                     });
                                 }
@@ -561,7 +436,12 @@
                             _token: $('meta[name="csrf-token"]').attr('content')
                         },
                         error: function() {
-                            Swal.fire('Gagal!', 'Gagal memperbarui kegiatan', 'error');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: 'Gagal memperbarui kegiatan',
+                                confirmButtonColor: '#B52026'
+                            });
                             info.revert();
                         }
                     });
@@ -582,7 +462,12 @@
                             _token: $('meta[name="csrf-token"]').attr('content')
                         },
                         error: function() {
-                            Swal.fire('Gagal!', 'Gagal memperbarui kegiatan', 'error');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: 'Gagal memperbarui kegiatan',
+                                confirmButtonColor: '#B52026'
+                            });
                             info.revert();
                         }
                     });

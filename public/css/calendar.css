@@ -1,0 +1,281 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+/* Navbar - Merah Bisma */
+.navbar {
+    background-color: #b52026 !important;
+    margin-bottom: 0;
+    border-radius: 0;
+    padding: 1px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    color: white !important;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    height: 50px;
+    margin-right: 15px;
+}
+
+/* User Badge */
+.user-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    border: 2px solid white;
+    font-weight: 500;
+    color: white;
+    margin-right: 10px;
+}
+
+.admin-badge {
+    background-color: white;
+    color: #b52026;
+    border: 2px solid white;
+}
+
+.user-badge-normal {
+    background-color: white;
+    color: #b52026;
+    border: 25px solid white;
+}
+
+/* Logout Button */
+.btn-outline-light {
+    border: 2px solid white;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 500;
+}
+
+.btn-outline-light:hover {
+    background-color: white;
+    color: #b52026;
+}
+
+/* Container */
+.container {
+    padding: 15px 5px;
+    max-width: 1200px;
+}
+
+/* Header Section */
+.text-center h1 {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.text-center p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Calendar Container */
+#calendar {
+    max-width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    min-height: 600px;
+}
+
+/* FullCalendar Toolbar */
+.fc .fc-toolbar {
+    margin-bottom: 20px !important;
+    padding-bottom: 15px !important;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #333 !important;
+}
+
+/* Tombol Toolbar  */
+.fc-button,
+.fc .fc-button {
+    background-color: #ffb606 !important;
+    border-color: #ffb606 !important;
+    color: white !important;
+    border-radius: 8px !important;
+    padding: 8px 15px !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+}
+
+.fc-button:hover,
+.fc .fc-button:hover {
+    background-color: #e5a305 !important;
+    border-color: #e5a305 !important;
+}
+
+/* Tombol View (Bulan, Minggu, Hari) - Kuning */
+.fc-dayGridMonth-button,
+.fc-timeGridWeek-button,
+.fc-timeGridDay-button {
+    background-color: #e5a305 !important;
+    border-color: #e5a305 !important;
+    color: #ffb606 !important;
+}
+
+.fc-dayGridMonth-button:hover,
+.fc-timeGridWeek-button:hover,
+.fc-timeGridDay-button:hover {
+    background-color: #e5a305 !important;
+    border-color: #e5a305 !important;
+}
+
+.fc-button-active,
+.fc-button-active:hover {
+    background-color: #e5a305 !important;
+    border-color: #e5a305 !important;
+}
+
+/* Calendar Grid */
+.fc-theme-standard td,
+.fc-theme-standard th {
+    border-color: #ddd !important;
+}
+
+.fc-col-header-cell {
+    background-color: #f9f9f9 !important;
+    padding: 12px 5px !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    text-transform: capitalize !important;
+}
+
+.fc-daygrid-day {
+    background: white !important;
+}
+
+.fc-daygrid-day:hover {
+    background: #f9f9f9 !important;
+}
+
+.fc-daygrid-day-number {
+    color: #333 !important;
+    font-weight: 500 !important;
+    padding: 8px !important;
+}
+
+/* Highlight hari ini */
+.fc-day-today {
+    background-color: #fff3cd !important;
+}
+
+/* Event Styling */
+.fc-event {
+    border-radius: 5px !important;
+    padding: 3px 6px !important;
+    margin: 2px !important;
+    font-size: 13px !important;
+    border: none !important;
+}
+
+.fc-event-title {
+    font-weight: 500 !important;
+}
+
+/* Event Type Badges */
+.event-type-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 5px;
+    font-weight: 600;
+}
+
+.badge-public {
+    background-color: #28a745;
+    color: white;
+}
+
+.badge-private {
+    background-color: #ffb606;
+    color: #333;
+}
+
+/* SweetAlert2 */
+.select2-container {
+    width: 100% !important;
+    z-index: 9999 !important;
+}
+
+.swal2-html-container {
+    overflow: visible !important;
+}
+
+.swal2-popup {
+    border-radius: 15px !important;
+}
+
+/* Scrollbar */
+.fc-scroller::-webkit-scrollbar {
+    width: 8px;
+}
+
+.fc-scroller::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.fc-scroller::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.fc-scroller::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Week & Day View */
+.fc-timeGridWeek-view,
+.fc-timeGridDay-view {
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #calendar {
+        padding: 15px;
+    }
+
+    .navbar-brand img {
+        height: 30px;
+    }
+
+    .fc .fc-toolbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1.2rem !important;
+    }
+}
+
+/* Hide instruction text for cleaner look (optional) */
+.text-success,
+.text-muted.small {
+    font-size: 14px;
+    color: #666 !important;
+}
