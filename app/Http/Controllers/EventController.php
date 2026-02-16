@@ -28,9 +28,9 @@ class EventController extends Controller
                 // 2. Event private yang di-assign ke mereka
                 $events = Event::where(function($query) use ($user) {
                     $query->where('is_public', true)
-                          ->orWhereHas('users', function($q) use ($user) {
-                              $q->where('users.id', $user->id);
-                          });
+                        ->orWhereHas('users', function($q) use ($user) {
+                        $q->where('users.id', $user->id);
+                        });
                 })
                 ->with('users')
                 ->get();
@@ -87,7 +87,7 @@ class EventController extends Controller
                 'is_public' => $validated['is_public'],
             ]);
 
-            // Jika event private, assign ke user yang dipilih
+            // Jika event private, bisa tugas ke user tertentu
             if (!$validated['is_public'] && isset($validated['user_ids'])) {
                 $event->users()->attach($validated['user_ids']);
             }
@@ -135,17 +135,17 @@ class EventController extends Controller
             
             $event->update($validated);
 
-            // Update assigned users jika ada
+            // Update event users jika ada
             if (isset($validated['is_public'])) {
                 if ($validated['is_public']) {
-                    // Jika diubah jadi public, hapus semua assignment
+                    // Jika diubah jadi public, hapus semua event
                     $event->users()->detach();
                 } elseif (isset($validated['user_ids'])) {
                     // Jika private, sync user yang dipilih
                     $event->users()->sync($validated['user_ids']);
                 }
             } elseif (isset($validated['user_ids'])) {
-                // Update user assignment tanpa ubah is_public
+                // Update user event tanpa ubah is_public
                 $event->users()->sync($validated['user_ids']);
             }
             

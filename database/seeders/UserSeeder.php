@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        echo "✅ Users created successfully!\n";
+        echo " Users created successfully!\n";
         echo "Admin: admin@example.com / password\n";
         echo "User: user@example.com / password\n";
     }

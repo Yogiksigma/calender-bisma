@@ -29,6 +29,55 @@ body {
     margin-right: 15px;
 }
 
+/* Welcome Text */
+.welcome-text {
+    color: white;
+    font-size: 15px;
+    margin-right: 15px;
+    font-weight: 400;
+}
+
+.welcome-text strong {
+    font-weight: 600;
+    color: #ffb606; /* Warna kuning Bisma untuk nama */
+}
+
+/* User Badge */
+.user-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: white;
+    color: #b52026;
+    border: 2px solid white;
+    margin-right: 12px;
+}
+
+/* Navbar spacing */
+.navbar .d-flex {
+    gap: 0; /* Hapus gap default, pakai margin manual */
+}
+
+/* Logout Button */
+.btn-outline-light {
+    border: 2px solid white;
+    color: white;
+    font-weight: 500;
+    padding: 6px 18px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: white;
+    color: #b52026;
+    border-color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
 /* User Badge */
 .user-badge {
     display: inline-block;
@@ -118,21 +167,33 @@ body {
     padding: 8px 15px !important;
     font-weight: 500 !important;
     text-transform: none !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
 .fc-button:hover,
 .fc .fc-button:hover {
-    background-color: #e5a305 !important;
-    border-color: #e5a305 !important;
+    background-color: #b18215 !important;
+    border-color: #b18215 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* Tombol View (Bulan, Minggu, Hari) - Kuning */
+.fc-button:active,
+.fc .fc-button:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Tombol View (Bulan, Minggu, Hari) */
 .fc-dayGridMonth-button,
 .fc-timeGridWeek-button,
 .fc-timeGridDay-button {
-    background-color: #e5a305 !important;
-    border-color: #e5a305 !important;
-    color: #ffb606 !important;
+    background-color: #ffb606 !important;
+    border-color: #ffb606 !important;
+    color: white !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
 .fc-dayGridMonth-button:hover,
@@ -140,12 +201,21 @@ body {
 .fc-timeGridDay-button:hover {
     background-color: #e5a305 !important;
     border-color: #e5a305 !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 6px 12px rgba(229, 163, 5, 0.4) !important;
 }
 
+/* Tombol Aktif  */
 .fc-button-active,
 .fc-button-active:hover {
     background-color: #e5a305 !important;
     border-color: #e5a305 !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 8px rgba(229, 163, 5, 0.5) !important;
+}
+
+.fc-button-active:hover {
+    transform: scale(1.08) !important;
 }
 
 /* Calendar Grid */
