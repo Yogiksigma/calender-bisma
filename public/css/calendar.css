@@ -157,32 +157,69 @@ body {
     color: #333 !important;
 }
 
-/* Tombol Toolbar  */
+/* Tombol Toolbar umum */
 .fc-button,
 .fc .fc-button {
-    background-color: #ffb606 !important;
-    border-color: #ffb606 !important;
     color: white !important;
-    border-radius: 8px !important;
-    padding: 8px 15px !important;
     font-weight: 500 !important;
     text-transform: none !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.22s ease !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
 }
 
-.fc-button:hover,
-.fc .fc-button:hover {
-    background-color: #b18215 !important;
-    border-color: #b18215 !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+/* Prev/Next buttons - gelap kotak */
+.fc-prev-button,
+.fc-next-button {
+    background-color: #111 !important;
+    border-color: #111 !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    width: 44px !important;
+    height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
-.fc-button:active,
-.fc .fc-button:active {
-    transform: translateY(0) !important;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+/* beri jarak antar kotak gelap prev dan next */
+.fc-prev-button {
+    margin-right: 5px !important;
+}
+
+.fc-prev-button i,
+.fc-next-button i {
+    color: #fff !important;
+}
+
+/* Today button - abu */
+.fc-today-button {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: #fff !important;
+    border-radius: 6px !important;
+    padding: 8px 12px !important;
+}
+
+/* Tombol View (Bulan, Minggu, Hari) - pill kuning di kanan */
+.fc-dayGridMonth-button,
+.fc-timeGridWeek-button,
+.fc-timeGridDay-button {
+    background-color: #ffb606 !important;
+    border-color: #ffb606 !important;
+    color: #111 !important;
+    border-radius: 6px !important;
+    padding: 8px 14px !important;
+    margin-left: 8px !important;
+}
+
+.fc-dayGridMonth-button:hover,
+.fc-timeGridWeek-button:hover,
+.fc-timeGridDay-button:hover {
+    background-color: #e5a305 !important;
+    border-color: #e5a305 !important;
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 6px 12px rgba(229, 163, 5, 0.25) !important;
 }
 
 /* Tombol View (Bulan, Minggu, Hari) */
@@ -210,12 +247,12 @@ body {
 .fc-button-active:hover {
     background-color: #e5a305 !important;
     border-color: #e5a305 !important;
-    transform: scale(1.05) !important;
-    box-shadow: 0 4px 8px rgba(229, 163, 5, 0.5) !important;
+    transform: scale(1.03) !important;
+    box-shadow: 0 4px 8px rgba(229, 163, 5, 0.35) !important;
 }
 
 .fc-button-active:hover {
-    transform: scale(1.08) !important;
+    transform: scale(1.05) !important;
 }
 
 /* Calendar Grid */
