@@ -23,7 +23,7 @@ class EventController extends Controller
             if ($user->isAdmin()) {
                 $events = Event::with('users')->get();
             } else {
-                // User biasa hanya lihat:
+                // User biasa bisa lihat:
                 // 1. Event publik (is_public = true)
                 // 2. Event private yang di-assign ke mereka
                 $events = Event::where(function($query) use ($user) {
@@ -112,7 +112,7 @@ class EventController extends Controller
             ], 500);
         }
     }
-
+    // Untuk update event 
     public function update(Request $request, $id)
     {
         try {

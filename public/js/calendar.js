@@ -9,21 +9,18 @@ function loadUsers() {
         type: "GET",
         success: function (data) {
             allUsers = data;
-            console.log("Users loaded:", allUsers);
+            console.log("✅ Users loaded:", allUsers);
         },
         error: function (xhr) {
-            console.error("Failed to load users:", xhr);
+            console.error("❌ Failed to load users:", xhr);
         },
     });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     var calendarEl = document.getElementById("calendar");
-
-    // Cek apakah user adalah admin dari data attribute
     var isAdmin = calendarEl.dataset.isAdmin === "true";
 
-    // Load users jika admin
     if (isAdmin) {
         loadUsers();
     }
@@ -89,69 +86,74 @@ document.addEventListener("DOMContentLoaded", function () {
             Swal.fire({
                 title: "Tambah Kegiatan baru",
                 html: `
-                    <div class="modal-card">
+            <div class="modal-card">
+                <div class="form-group">
+                    <label>Judul Kegiatan</label>
+                    <input id="event-title" class="swal2-input custom-input" placeholder="Judul Kegiatan">
+                </div>
+
+                <div class="form-row">
+                    <div style="flex:1;">
                         <div class="form-group">
-                            <label>Judul Kegiatan</label>
-                            <input id="event-title" class="swal2-input custom-input" placeholder="Judul Kegiatan">
-                        </div>
-
-                        <div class="form-row">
-                            <div style="flex:1;">
-                                <div class="form-group">
-                                    <label>Tanggal</label>
-                                    <input id="event-start" type="datetime-local" class="swal2-input custom-input" value="${info.dateStr}T09:00">
-                                </div>
-                            </div>
-                            <div style="flex:1;">
-                                <div class="form-group">
-                                    <label>Berakhir</label>
-                                    <input id="event-end" type="datetime-local" class="swal2-input custom-input" value="${info.dateStr}T10:00">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Deskripsi</label>
-                            <textarea id="event-description" class="swal2-textarea custom-textarea" placeholder="Deskripsi Kegiatan"></textarea>
-                        </div>
-
-                        <div class="radio-group">
-                            <label class="radio-option"><input type="radio" name="event-type" value="public" checked>Event Publik <small style="font-weight:400; color:#777;">(Semua user bisa lihat)</small></label>
-                            <label class="radio-option"><input type="radio" name="event-type" value="private">Event Private <small style="font-weight:400; color:#777;">(Pilih user yang bisa lihat)</small></label>
-                        </div>
-
-                        <div class="form-group">
-                            <select id="event-users" class="swal2-input" multiple style="width: 100%; display: none;">
-                                ${userOptions}
-                            </select>
+                            <label>Tanggal</label>
+                            <input id="event-start" type="datetime-local" class="swal2-input custom-input" value="${info.dateStr}T09:00">
                         </div>
                     </div>
-                `,
-                width: "520px",
+                    <div style="flex:1;">
+                        <div class="form-group">
+                            <label>Berakhir</label>
+                            <input id="event-end" type="datetime-local" class="swal2-input custom-input" value="${info.dateStr}T10:00">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Deskripsi</label>
+                    <textarea id="event-description" class="swal2-textarea custom-textarea" placeholder="Deskripsi Kegiatan"></textarea>
+                </div>
+
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="event-type" value="public" checked>
+                        Event Publik <small style="font-weight:400; color:#777;">(Semua user bisa lihat)</small>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="event-type" value="private">
+                        Event Private <small style="font-weight:400; color:#777;">(Pilih user yang bisa lihat)</small>
+                    </label>
+                </div>
+
+                <div id="user-select-wrapper" class="form-group" style="display: none; margin-top: 12px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #333;">Pilih User</label>
+                    <select id="event-users" class="swal2-input" multiple style="width: 100%;">
+                        ${userOptions}
+                    </select>
+                </div>
+            </div>
+        `,
+                width: "550px",
                 focusConfirm: false,
                 showCancelButton: true,
                 confirmButtonText: "Simpan",
                 cancelButtonText: "Batal",
-                confirmButtonColor: "#B52026",
+                confirmButtonColor: "#FFB606",
+                cancelButtonColor: "#ccc",
                 didOpen: () => {
+                    // Initialize Select2
                     $("#event-users").select2({
                         placeholder: "Pilih user yang bisa melihat event ini",
                         dropdownParent: $(".swal2-container"),
                     });
 
+                    // Toggle user selection
                     $('input[name="event-type"]').on("change", function () {
                         if ($(this).val() === "private") {
-                            $("#event-users").closest('.form-group').show();
-                            $("#event-users").show();
+                            $("#user-select-wrapper").slideDown(200);
                         } else {
-                            $("#event-users").closest('.form-group').hide();
-                            $("#event-users").hide();
+                            $("#user-select-wrapper").slideUp(200);
+                            $("#event-users").val(null).trigger("change");
                         }
                     });
-                    // hide users initially
-                    if ($('input[name="event-type"]:checked').val() === 'public') {
-                        $("#event-users").closest('.form-group').hide();
-                    }
                 },
                 willClose: () => {
                     if (
@@ -201,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         title: result.value.title,
                         start: result.value.start,
                         end: result.value.end,
+                        color: "#FFB606",
                         description: result.value.description,
                         is_public: result.value.isPublic ? 1 : 0,
                         user_ids: result.value.userIds,
@@ -218,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 title: "Berhasil!",
                                 text: "Kegiatan berhasil ditambahkan",
                                 timer: 2000,
-                                confirmButtonColor: "#B52026",
+                                confirmButtonColor: "#FFB606",
                             });
                         },
                         error: function (xhr) {
@@ -262,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     title: info.event.title,
                     html: eventInfo,
                     icon: "info",
-                    confirmButtonColor: "#B52026",
+                    confirmButtonColor: "#FFB606",
                 });
                 return;
             }
@@ -277,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 denyButtonText: "Edit",
                 cancelButtonText: "Tutup",
                 confirmButtonColor: "#dc3545",
-                denyButtonColor: "#B52026",
+                denyButtonColor: "#FFB606",
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
@@ -295,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 title: "Terhapus!",
                                 text: "Kegiatan berhasil dihapus",
                                 timer: 2000,
-                                confirmButtonColor: "#B52026",
+                                confirmButtonColor: "#FFB606",
                             });
                         },
                         error: function (xhr) {
@@ -354,23 +357,30 @@ document.addEventListener("DOMContentLoaded", function () {
                                 </div>
 
                                 <div class="radio-group">
-                                    <label class="radio-option"><input type="radio" name="edit-event-type" value="public" ${info.event.extendedProps.is_public ? "checked" : ""}>Event Publik</label>
-                                    <label class="radio-option"><input type="radio" name="edit-event-type" value="private" ${!info.event.extendedProps.is_public ? "checked" : ""}>Event Private</label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="edit-event-type" value="public" ${info.event.extendedProps.is_public ? "checked" : ""}>
+                                        Event Publik
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="edit-event-type" value="private" ${!info.event.extendedProps.is_public ? "checked" : ""}>
+                                        Event Private
+                                    </label>
                                 </div>
 
-                                <div class="form-group">
-                                    <select id="edit-users" class="swal2-input" multiple style="width: 100%; ${info.event.extendedProps.is_public ? "display: none;" : ""}">
+                                <div id="edit-user-select-wrapper" class="form-group" style="${info.event.extendedProps.is_public ? "display: none;" : ""}">
+                                    <label>Pilih User</label>
+                                    <select id="edit-users" class="swal2-input" multiple style="width: 100%;">
                                         ${userOptions}
                                     </select>
                                 </div>
                             </div>
                         `,
-                        width: "520px",
+                        width: "550px",
                         focusConfirm: false,
                         showCancelButton: true,
                         confirmButtonText: "Update",
                         cancelButtonText: "Batal",
-                        confirmButtonColor: "#B52026",
+                        confirmButtonColor: "#FFB606",
                         didOpen: () => {
                             $("#edit-users").select2({
                                 placeholder: "Pilih user",
@@ -381,17 +391,19 @@ document.addEventListener("DOMContentLoaded", function () {
                                 "change",
                                 function () {
                                     if ($(this).val() === "private") {
-                                        $("#edit-users").closest('.form-group').show();
-                                        $("#edit-users").show();
+                                        $(
+                                            "#edit-user-select-wrapper",
+                                        ).slideDown(200);
                                     } else {
-                                        $("#edit-users").closest('.form-group').hide();
-                                        $("#edit-users").hide();
+                                        $("#edit-user-select-wrapper").slideUp(
+                                            200,
+                                        );
+                                        $("#edit-users")
+                                            .val(null)
+                                            .trigger("change");
                                     }
                                 },
                             );
-                            if ($('input[name="edit-event-type"]:checked').val() === 'public') {
-                                $("#edit-users").closest('.form-group').hide();
-                            }
                         },
                         willClose: () => {
                             if (
@@ -441,7 +453,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 title: editResult.value.title,
                                 start: editResult.value.start,
                                 end: editResult.value.end,
-                                color: editResult.value.color,
                                 description: editResult.value.description,
                                 is_public: editResult.value.isPublic ? 1 : 0,
                                 user_ids: editResult.value.userIds,
@@ -460,7 +471,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                         icon: "success",
                                         title: "Berhasil!",
                                         text: "Kegiatan berhasil diupdate",
-                                        confirmButtonColor: "#B52026",
+                                        confirmButtonColor: "#FFB606",
                                     });
                                 },
                                 error: function (xhr) {

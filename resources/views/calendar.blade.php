@@ -16,7 +16,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img src="{{ asset('images/logo-bisma.png') }}" alt="Bisma Informatika">
+            <img src="{{ asset('images/Logo-Bisma-Informatika-Indonesia-Merah (2) 2 (1).png') }}" alt="Bisma Informatika">
         </a>
         <div class="d-flex align-items-center">
             <!-- Welcome Message -->
