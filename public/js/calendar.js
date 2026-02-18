@@ -87,30 +87,47 @@ document.addEventListener("DOMContentLoaded", function () {
                 .join("");
 
             Swal.fire({
-                title: "Tambah Kegiatan Baru",
+                title: "Tambah Kegiatan baru",
                 html: `
-                    <input id="event-title" class="swal2-input" placeholder="Judul Kegiatan">
-                    <input id="event-start" type="datetime-local" class="swal2-input" value="${info.dateStr}T09:00">
-                    <input id="event-end" type="datetime-local" class="swal2-input" value="${info.dateStr}T10:00">
-                    <input id="event-color" type="color" class="swal2-input" value="#3788d8">
-                    <textarea id="event-description" class="swal2-textarea" placeholder="Deskripsi (opsional)"></textarea>
-                    
-                    <div style="margin-top: 15px; text-align: left;">
-                        <label style="display: block; margin-bottom: 10px;">
-                            <input type="radio" name="event-type" value="public" checked> 
-                            <strong>Event Publik</strong> <small>(Semua user bisa lihat)</small>
-                        </label>
-                        <label style="display: block; margin-bottom: 10px;">
-                            <input type="radio" name="event-type" value="private"> 
-                            <strong>Event Private</strong> <small>(Pilih user yang bisa lihat)</small>
-                        </label>
+                    <div class="modal-card">
+                        <div class="form-group">
+                            <label>Judul Kegiatan</label>
+                            <input id="event-title" class="swal2-input custom-input" placeholder="Judul Kegiatan">
+                        </div>
+
+                        <div class="form-row">
+                            <div style="flex:1;">
+                                <div class="form-group">
+                                    <label>Tanggal</label>
+                                    <input id="event-start" type="datetime-local" class="swal2-input custom-input" value="${info.dateStr}T09:00">
+                                </div>
+                            </div>
+                            <div style="flex:1;">
+                                <div class="form-group">
+                                    <label>Berakhir</label>
+                                    <input id="event-end" type="datetime-local" class="swal2-input custom-input" value="${info.dateStr}T10:00">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Deskripsi</label>
+                            <textarea id="event-description" class="swal2-textarea custom-textarea" placeholder="Deskripsi Kegiatan"></textarea>
+                        </div>
+
+                        <div class="radio-group">
+                            <label class="radio-option"><input type="radio" name="event-type" value="public" checked>Event Publik <small style="font-weight:400; color:#777;">(Semua user bisa lihat)</small></label>
+                            <label class="radio-option"><input type="radio" name="event-type" value="private">Event Private <small style="font-weight:400; color:#777;">(Pilih user yang bisa lihat)</small></label>
+                        </div>
+
+                        <div class="form-group">
+                            <select id="event-users" class="swal2-input" multiple style="width: 100%; display: none;">
+                                ${userOptions}
+                            </select>
+                        </div>
                     </div>
-                    
-                    <select id="event-users" class="swal2-input" multiple style="width: 100%; display: none;">
-                        ${userOptions}
-                    </select>
                 `,
-                width: "600px",
+                width: "520px",
                 focusConfirm: false,
                 showCancelButton: true,
                 confirmButtonText: "Simpan",
@@ -124,11 +141,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     $('input[name="event-type"]').on("change", function () {
                         if ($(this).val() === "private") {
+                            $("#event-users").closest('.form-group').show();
                             $("#event-users").show();
                         } else {
+                            $("#event-users").closest('.form-group').hide();
                             $("#event-users").hide();
                         }
                     });
+                    // hide users initially
+                    if ($('input[name="event-type"]:checked').val() === 'public') {
+                        $("#event-users").closest('.form-group').hide();
+                    }
                 },
                 willClose: () => {
                     if (
@@ -141,7 +164,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     const title = document.getElementById("event-title").value;
                     const start = document.getElementById("event-start").value;
                     const end = document.getElementById("event-end").value;
-                    const color = document.getElementById("event-color").value;
                     const description =
                         document.getElementById("event-description").value;
                     const eventType = $(
@@ -168,7 +190,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         title,
                         start,
                         end,
-                        color,
                         description,
                         isPublic,
                         userIds,
@@ -180,7 +201,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         title: result.value.title,
                         start: result.value.start,
                         end: result.value.end,
-                        color: result.value.color,
                         description: result.value.description,
                         is_public: result.value.isPublic ? 1 : 0,
                         user_ids: result.value.userIds,
@@ -305,28 +325,47 @@ document.addEventListener("DOMContentLoaded", function () {
                     Swal.fire({
                         title: "Edit Kegiatan",
                         html: `
-                            <input id="edit-title" class="swal2-input" value="${info.event.title}">
-                            <input id="edit-start" type="datetime-local" class="swal2-input" value="${startDate}">
-                            <input id="edit-end" type="datetime-local" class="swal2-input" value="${endDate}">
-                            <input id="edit-color" type="color" class="swal2-input" value="${info.event.backgroundColor || "#3788d8"}">
-                            <textarea id="edit-description" class="swal2-textarea">${info.event.extendedProps.description || ""}</textarea>
-                            
-                            <div style="margin-top: 15px; text-align: left;">
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="radio" name="edit-event-type" value="public" ${info.event.extendedProps.is_public ? "checked" : ""}> 
-                                    <strong>Event Publik</strong>
-                                </label>
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="radio" name="edit-event-type" value="private" ${!info.event.extendedProps.is_public ? "checked" : ""}> 
-                                    <strong>Event Private</strong>
-                                </label>
+                            <div class="modal-card">
+                                <p class="modal-subtitle">edit jadwal</p>
+
+                                <div class="form-group">
+                                    <label>Judul Kegiatan</label>
+                                    <input id="edit-title" class="swal2-input custom-input" value="${info.event.title}">
+                                </div>
+
+                                <div class="form-row">
+                                    <div style="flex:1;">
+                                        <div class="form-group">
+                                            <label>Tanggal</label>
+                                            <input id="edit-start" type="datetime-local" class="swal2-input custom-input" value="${startDate}">
+                                        </div>
+                                    </div>
+                                    <div style="flex:1;">
+                                        <div class="form-group">
+                                            <label>Berakhir</label>
+                                            <input id="edit-end" type="datetime-local" class="swal2-input custom-input" value="${endDate}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Deskripsi</label>
+                                    <textarea id="edit-description" class="swal2-textarea custom-textarea">${info.event.extendedProps.description || ""}</textarea>
+                                </div>
+
+                                <div class="radio-group">
+                                    <label class="radio-option"><input type="radio" name="edit-event-type" value="public" ${info.event.extendedProps.is_public ? "checked" : ""}>Event Publik</label>
+                                    <label class="radio-option"><input type="radio" name="edit-event-type" value="private" ${!info.event.extendedProps.is_public ? "checked" : ""}>Event Private</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <select id="edit-users" class="swal2-input" multiple style="width: 100%; ${info.event.extendedProps.is_public ? "display: none;" : ""}">
+                                        ${userOptions}
+                                    </select>
+                                </div>
                             </div>
-                            
-                            <select id="edit-users" class="swal2-input" multiple style="width: 100%; ${info.event.extendedProps.is_public ? "display: none;" : ""}">
-                                ${userOptions}
-                            </select>
                         `,
-                        width: "600px",
+                        width: "520px",
                         focusConfirm: false,
                         showCancelButton: true,
                         confirmButtonText: "Update",
@@ -342,12 +381,17 @@ document.addEventListener("DOMContentLoaded", function () {
                                 "change",
                                 function () {
                                     if ($(this).val() === "private") {
+                                        $("#edit-users").closest('.form-group').show();
                                         $("#edit-users").show();
                                     } else {
+                                        $("#edit-users").closest('.form-group').hide();
                                         $("#edit-users").hide();
                                     }
                                 },
                             );
+                            if ($('input[name="edit-event-type"]:checked').val() === 'public') {
+                                $("#edit-users").closest('.form-group').hide();
+                            }
                         },
                         willClose: () => {
                             if (
@@ -365,8 +409,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 document.getElementById("edit-start").value;
                             const end =
                                 document.getElementById("edit-end").value;
-                            const color =
-                                document.getElementById("edit-color").value;
                             const description =
                                 document.getElementById(
                                     "edit-description",
@@ -388,7 +430,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 title,
                                 start,
                                 end,
-                                color,
                                 description,
                                 isPublic,
                                 userIds,
