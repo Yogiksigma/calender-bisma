@@ -334,7 +334,7 @@ body {
     border-radius: 8px !important;
     width: 520px !important;
     padding: 40px 44px !important;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18) !important;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.18) !important;
     background: #ffffff !important;
 }
 
@@ -362,6 +362,8 @@ body {
     display: block;
     font-weight: 600;
     margin-bottom: 10px !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
     color: #333;
     font-size: 14px;
 }
@@ -379,6 +381,7 @@ body {
     font-size: 14px !important;
     height: 48px !important;
     box-shadow: none !important;
+    margin-left: 0 !important;
 }
 
 .swal2-textarea.custom-textarea {
@@ -390,6 +393,19 @@ body {
 .swal2-html-container .form-row {
     display: flex;
     gap: 14px !important;
+}
+
+.swal2-html-container label {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 10px !important;
+    color: #333;
+    font-size: 14px;
+}
+
+.swal2-html-container .form-group label {
+    display: block;
 }
 
 .swal2-html-container .radio-group {
@@ -427,6 +443,7 @@ body {
     background: #b52026 !important;
     border-color: #b52026 !important;
 }
+
 
 .swal2-confirm {
     background: #ffb606 !important;
@@ -511,158 +528,4 @@ body {
 .text-muted.small {
     font-size: 14px;
     color: #666 !important;
-}
-
-/* Wrapper untuk field pilih user */
-#user-select-wrapper,
-#edit-user-select-wrapper {
-    margin-top: 12px;
-}
-
-/* Select2 styling untuk user selection */
-.select2-container--default .select2-selection--multiple {
-    border: 1px solid #eee !important;
-    border-radius: 6px !important;
-    min-height: 48px !important;
-    padding: 4px 8px !important;
-}
-
-.select2-container--default
-    .select2-selection--multiple
-    .select2-selection__choice {
-    background-color: #ffb606 !important;
-    border: none !important;
-    color: #111 !important;
-    padding: 4px 10px !important;
-    border-radius: 4px !important;
-    font-weight: 500 !important;
-    font-size: 13px !important;
-}
-
-.select2-container--default
-    .select2-selection--multiple
-    .select2-selection__choice__remove {
-    color: #111 !important;
-    margin-right: 5px !important;
-    font-weight: bold !important;
-}
-
-.select2-container--default
-    .select2-selection--multiple
-    .select2-selection__choice__remove:hover {
-    color: #b52026 !important;
-}
-
-/* Select2 dropdown */
-.select2-container--default
-    .select2-results__option--highlighted[aria-selected] {
-    background-color: #ffb606 !important;
-    color: #111 !important;
-}
-
-.select2-container--default .select2-results__option[aria-selected="true"] {
-    background-color: #f5f5f5 !important;
-    color: #333 !important;
-}
-
-/* Smooth transition for show/hide */
-#user-select-wrapper,
-#edit-user-select-wrapper {
-    transition: all 0.2s ease-in-out;
-}
-
-/* Make sure Select2 appears above modal */
-.select2-container {
-    z-index: 99999 !important;
-}
-
-.select2-dropdown {
-    z-index: 99999 !important;
-    border: 1px solid #eee !important;
-    border-radius: 6px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Tombol Simpan - Kuning Bisma */
-.swal2-confirm {
-    background: #ffb606 !important;
-    border: none !important;
-    color: #111 !important;
-    padding: 12px 28px !important;
-    border-radius: 6px !important;
-    font-weight: 700 !important;
-    min-width: 110px !important;
-    transition: all 0.2s ease !important;
-}
-
-.swal2-confirm:hover {
-    background: #e5a305 !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 12px rgba(255, 182, 6, 0.3) !important;
-}
-
-/* Tombol Batal */
-.swal2-cancel {
-    background: #bdbdbd !important;
-    border: none !important;
-    color: #fff !important;
-    padding: 12px 24px !important;
-    border-radius: 6px !important;
-    margin-left: 12px !important;
-    min-width: 90px !important;
-    transition: all 0.2s ease !important;
-}
-
-.swal2-cancel:hover {
-    background: #999 !important;
-}
-
-.modal-card {
-    text-align: left;
-    padding: 4px 0;
-}
-
-.modal-subtitle {
-    margin-top: 0 !important;
-    margin-bottom: 24px !important;
-    color: #9aa0a6 !important;
-    font-size: 13px !important;
-    font-weight: 400 !important;
-}
-
-/* Input focus state */
-.swal2-input.custom-input:focus,
-.swal2-textarea.custom-textarea:focus,
-.swal2-html-container select.swal2-input:focus {
-    border-color: #ffb606 !important;
-    outline: none !important;
-    box-shadow: 0 0 0 3px rgba(255, 182, 6, 0.1) !important;
-}
-
-/* Placeholder styling */
-.swal2-input.custom-input::placeholder,
-.swal2-textarea.custom-textarea::placeholder {
-    color: #bbb !important;
-    font-style: italic;
-}
-
-/* Radio button hover */
-.swal2-html-container .radio-option:hover {
-    background: #f9f9f9;
-}
-
-@media (max-width: 576px) {
-    .swal2-popup {
-        width: 95% !important;
-        padding: 24px 20px !important;
-    }
-
-    .swal2-title {
-        font-size: 22px !important;
-    }
-
-    .swal2-html-container .form-row {
-        flex-direction: column;
-        gap: 0 !important;
-    }
 }

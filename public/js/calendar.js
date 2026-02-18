@@ -92,19 +92,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     <input id="event-title" class="swal2-input custom-input" placeholder="Judul Kegiatan">
                 </div>
 
-                <div class="form-row">
-                    <div style="flex:1;">
-                        <div class="form-group">
-                            <label>Tanggal</label>
-                            <input id="event-start" type="datetime-local" class="swal2-input custom-input" value="${info.dateStr}T09:00">
-                        </div>
-                    </div>
-                    <div style="flex:1;">
-                        <div class="form-group">
-                            <label>Berakhir</label>
-                            <input id="event-end" type="datetime-local" class="swal2-input custom-input" value="${info.dateStr}T10:00">
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label>Tanggal</label>
+                    <input id="event-start" type="datetime-local" class="swal2-input custom-input" value="${info.dateStr}T09:00">
+                </div>
+
+                <div class="form-group">
+                    <label>Berakhir</label>
+                    <input id="event-end" type="datetime-local" class="swal2-input custom-input" value="${info.dateStr}T10:00">
                 </div>
 
                 <div class="form-group">
@@ -336,19 +331,14 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <input id="edit-title" class="swal2-input custom-input" value="${info.event.title}">
                                 </div>
 
-                                <div class="form-row">
-                                    <div style="flex:1;">
-                                        <div class="form-group">
-                                            <label>Tanggal</label>
-                                            <input id="edit-start" type="datetime-local" class="swal2-input custom-input" value="${startDate}">
-                                        </div>
-                                    </div>
-                                    <div style="flex:1;">
-                                        <div class="form-group">
-                                            <label>Berakhir</label>
-                                            <input id="edit-end" type="datetime-local" class="swal2-input custom-input" value="${endDate}">
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label>Tanggal</label>
+                                    <input id="edit-start" type="datetime-local" class="swal2-input custom-input" value="${startDate}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Berakhir</label>
+                                    <input id="edit-end" type="datetime-local" class="swal2-input custom-input" value="${endDate}">
                                 </div>
 
                                 <div class="form-group">

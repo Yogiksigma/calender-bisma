@@ -7,7 +7,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/register.css') }}" rel="stylesheet">
 </head>
-<body>
+<body style="padding-top: 70px;">
+    <!-- Navbar Merah -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #b52026 !important; margin-bottom: 0; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; width: 100%;">
+        <div class="container">
+            <a class="navbar-brand" href="/" style="font-size: 1.2rem; font-weight: 600; display: flex; align-items: center;">
+                <img src="{{ asset('images/Logo-Bisma-Informatika-Indonesia-Merah (2) 2 (1).png') }}" alt="Bisma Informatika" style="height: 50px; margin-right: 15px;">
+            </a>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
